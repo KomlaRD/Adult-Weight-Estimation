@@ -115,6 +115,23 @@ df <- df |>
 skim(df)
 
 # Shapiro-Wilk test
+# Function to perform Shapiro-Wilk test and extract p-value
+shapiro_test <- function(x) {
+  shapiro_result <- shapiro.test(x)
+  return(shapiro_result$p.value)
+}
 
+# Extract numeric variables from the dataset
+numeric_vars <- df %>%
+  select_if(is.numeric)
 
+# Apply the Shapiro-Wilk test to each numeric variable and tidy the results
+shapiro_p_values <- numeric_vars %>%
+  summarise(across(everything(), ~ shapiro_test(.))) %>%
+  pivot_longer(everything(), names_to = "Variable", values_to = "P_Value")
 
+# Display the p-values
+print("Shapiro values for normality testing")
+print(shapiro_p_values)
+
+## Note; None of the numeric variables are normally distributed
