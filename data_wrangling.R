@@ -1,10 +1,11 @@
 # Load packages
 pacman::p_load(
-  tidyverse,
-  rio,
-  here,
-  skimr,
-  finalfit
+  tidyverse, # Wrangling
+  rio, # Import and export data
+  here, # File management
+  skimr, # Skim dataset
+  finalfit, # Labelling
+  janitor # Clean names
 )
 
 
@@ -12,3 +13,5 @@ pacman::p_load(
 df <- import(here("data", "muac.sav"))
 head(df)
 
+# Clean names
+df <- clean_names(df)
