@@ -99,6 +99,22 @@ df <- df |>
     bmi = ff_label(bmi, "Body mass index (kgm-2")
   )
 
+# Mutate bmi into categories
+df <- df |>
+  mutate(
+    bmi_cat = case_when(
+      bmi < 18.5 ~ "Underweight",
+      bmi >= 18.5 & bmi <= 24.9 ~ "Normal",
+      bmi >= 25.0 & bmi <= 29.9 ~ "Overweight",
+      bmi >= 30.0 ~ "Obese"
+    ) |> ff_label("BMI categories"),
+    bmi_cat = factor(bmi_cat)
+  )
+    
+# Skim dataset
+skim(df)
+
+# Shapiro-Wilk test
 
 
 
