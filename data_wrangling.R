@@ -27,3 +27,13 @@ df <- df |>
     muac_male_groups,
     muac_females_groups
   ))
+
+# Mutate variables (Average values for double measurements)
+df <- df |>
+  mutate(
+    height = (height_1 + height_2) / 2, # Height (cm)
+    weight = (weight_1 + weight_2) / 2, # Weight (cm)
+    cc = (calf_circumference_1 + calf_circumference_2) / 2, # Calf circumference (cm)
+    muac = (muac_1 + muac_2) / 2 # Mid-upper arm circumference (cm)
+  )
+
