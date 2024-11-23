@@ -52,7 +52,7 @@ df <- df |>
 
 
 # Mutate categorical variables
-df |> 
+df <- df |> 
   mutate(
     # Sex
     sex = factor(sex) |>
@@ -85,3 +85,20 @@ df |>
         "Retired" = "retired"
       ) |> ff_label("Employment status")
   )
+
+
+# Label numeric variables
+df <- df |>
+  mutate(
+    bmi = (weight / (height/100) **2),
+    age = ff_label(age, "Age (years"),
+    height = ff_label(height, "Height (cm)"),
+    weight = ff_label(weight, "Weight (kg)"),
+    cc = ff_label(cc, "Calf circumference (cm)"),
+    muac = ff_label(muac, "MUAC (cm)"),
+    bmi = ff_label(bmi, "Body mass index (kgm-2")
+  )
+
+
+
+
