@@ -37,3 +37,51 @@ df <- df |>
     muac = (muac_1 + muac_2) / 2 # Mid-upper arm circumference (cm)
   )
 
+# Remove measurement variables
+df <- df |>
+  select(-c(
+    height_1,
+    height_2,
+    weight_1,
+    weight_2,
+    muac_1,
+    muac_2,
+    calf_circumference_1,
+    calf_circumference_2
+  ))
+
+
+# Mutate categorical variables
+df |> 
+  mutate(
+    # Sex
+    sex = factor(sex) |>
+      fct_recode(
+        "Female" = "female",
+        "Male" = "male"
+      ) |> ff_label("Sex"),
+    # Religion
+    religion = factor(religion) |>
+      fct_recode(
+        "Christian" = "christianity",
+        "Islam" = "islamic",
+        "Traditional" = "traditional"
+      ) |> ff_label("Religion"),
+    # Educational level
+    education_level = factor(education_level) |>
+      fct_recode(
+        "Pre-primary/None" = "pre_primary___none",
+        "Primary" = "primary",
+        "JSS/JHS/Middle" = "jss_jhs_middle",
+        "SSS/SHS/Secondary" = "sss_shs_secondary",
+        "Higher" = "higher"
+      ) |> ff_label("Educational level"),
+    # Employment status
+    employment = factor(employment) |>
+      fct_recode(
+        "Unemployed" = "unemployed",
+        "Self employed" =  "self_employed",
+        "Employed" = "employed",
+        "Retired" = "retired"
+      ) |> ff_label("Employment status")
+  )
