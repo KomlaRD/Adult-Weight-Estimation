@@ -4,7 +4,7 @@ pacman::p_load(
   rio, # Import and export data
   here, # File management
   skimr, # Skim dataset
-  finalfit, # Labelling
+  finalfit, # Labeling
   janitor # Clean names
 )
 
@@ -15,3 +15,15 @@ head(df)
 
 # Clean names
 df <- clean_names(df)
+head(df)
+
+# Remove redundant columns
+df <- df |>
+  select(-c(
+    bmi,
+    bmi_groups,
+    age_groups,
+    height_meters,
+    muac_male_groups,
+    muac_females_groups
+  ))
