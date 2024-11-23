@@ -5,7 +5,7 @@ pacman::p_load(
   here, # File management
   skimr, # Skim dataset
   finalfit, # Labeling
-  janitor # Clean names
+  janitor, # Clean names
 )
 
 
@@ -135,3 +135,33 @@ print("Shapiro values for normality testing")
 print(shapiro_p_values)
 
 ## Note; None of the numeric variables are normally distributed
+
+# ## Predict weight (trial)
+# 
+# predicted_weight <- case_when(
+#   df$sex == "Male" ~ -60.3 + (2.26 * df$muac) + (0.72) + (0.33 * df$height),
+#   df$sex == "Female" ~  -60.3 + (2.26 * df$muac) + (0.33 * df$height),
+#   TRUE ~ NA_real_
+# )
+# 
+# df$predicted_wt <- predicted_weight
+# 
+# # Evaluate weight performance
+# # Function to evaluate model predictions
+# weight_metrics <- function(weight, predicted_wt){
+#   # Mean absolute error
+#   mae_eval <- Metrics::mae(weight, predicted_wt)
+#   
+#   # Mean squared error
+#   mse_eval <- Metrics::mse(weight, predicted_wt)
+#   
+#   # Root mean squared error
+#   rmse_eval <- Metrics::rmse(weight, predicted_wt)
+#   
+#   return(c(mae_eval, mse_eval, rmse_eval))
+# }
+# 
+# weight_metrics(df$weight, df$predicted_wt) # mae, mse, rmse
+
+## Export dataset
+export(df, here("data", "muac.csv"))
