@@ -164,5 +164,8 @@ print(shapiro_p_values)
 # 
 # weight_metrics(df$weight, df$predicted_wt) # mae, mse, rmse
 
+# Create exploratory data analysis report
+create_report(df)
+
 ## Export dataset
 export(df, here("data", "muac.csv"))
