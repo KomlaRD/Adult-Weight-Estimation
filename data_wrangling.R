@@ -164,6 +164,14 @@ print(shapiro_p_values)
 # 
 # weight_metrics(df$weight, df$predicted_wt) # mae, mse, rmse
 
+# Weight features
+weight_features <- df |> 
+  select(-c(weight, bmi, bmi_cat))
+
+# BMI features
+bmi_features <- df |>
+  select(-c(bmi, bmi_cat))
+
 # Create exploratory data analysis report
 create_report(df)
 
