@@ -6,6 +6,7 @@ pacman::p_load(
   skimr, # Skim dataset
   finalfit, # Labeling
   janitor, # Clean names
+  DataExplorer # Data exploration
 )
 
 
