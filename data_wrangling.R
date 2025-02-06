@@ -14,17 +14,24 @@ df <- import(here("data", "muac_data.csv"))
 
 # Clean names
 df <- clean_names(df)
-head(df)
 
-# Remove redundant columns
+# Remove redundant columns and meta-data
 df <- df |>
   select(-c(
-    bmi,
-    bmi_groups,
-    age_groups,
-    height_meters,
-    muac_male_groups,
-    muac_females_groups
+    start,
+    end,
+    participant_id,
+    sex_2,
+    id,
+    uuid,
+    submission_time,
+    validation_status,
+    notes,
+    status,
+    submitted_by,
+    version,
+    tags,
+    index
   ))
 
 # Mutate variables (Average values for double measurements)
