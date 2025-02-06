@@ -81,35 +81,16 @@ df <- df |>
 df <- df |> 
   mutate(
     # Sex
-    sex = factor(sex) |>
-      fct_recode(
-        "Female" = "female",
-        "Male" = "male"
-      ) |> ff_label("Sex"),
+    sex = factor(sex) |> ff_label("Sex"),
+    
     # Religion
-    religion = factor(religion) |>
-      fct_recode(
-        "Christian" = "christianity",
-        "Islam" = "islamic",
-        "Traditional" = "traditional"
-      ) |> ff_label("Religion"),
+    religion = factor(religion) |> ff_label("Religion"),
+    
     # Educational level
-    education_level = factor(education_level) |>
-      fct_recode(
-        "Pre-primary/None" = "pre_primary___none",
-        "Primary" = "primary",
-        "JSS/JHS/Middle" = "jss_jhs_middle",
-        "SSS/SHS/Secondary" = "sss_shs_secondary",
-        "Higher" = "higher"
-      ) |> ff_label("Educational level"),
+    education_level = factor(education_level) |> ff_label("Educational level"),
+    
     # Employment status
-    employment = factor(employment) |>
-      fct_recode(
-        "Unemployed" = "unemployed",
-        "Self employed" =  "self_employed",
-        "Employed" = "employed",
-        "Retired" = "retired"
-      ) |> ff_label("Employment status")
+    employment = factor(employment) |> ff_label("Employment status")
   )
 
 
@@ -164,13 +145,10 @@ print(shapiro_p_values)
 
 ## Predict weight (trial)
 
-predicted_weight <- case_when(
-  df$sex == "Male" ~ -60.3 + (2.26 * df$muac) + (0.72) + (0.33 * df$height),
-  df$sex == "Female" ~  -60.3 + (2.26 * df$muac) + (0.33 * df$height),
-  TRUE ~ NA_real_
-)
+df$predicted_weight <- ifelse(df$sex == "Male",
+                              -60.3 + (2.26 * df$muac) + (0.72) + (0.33 * df$height),
+                              -60.3 + (2.26 * df$muac) + (0.33 * df$height)) 
 
-df$predicted_wt <- predicted_weight
 
 # Evaluate weight performance
 # Function to evaluate model predictions
