@@ -48,6 +48,11 @@ df <-  df[-159,]
 ## Correct participant with height recorded as 69.0 instead of 169.0
 df$height_2[df$height_2 == 69.0] <- 169.0
 
+# Convert height_1 to numeric
+df$height_1 <- as.numeric(df$height_1)
+
+# Convert age to numeric
+df$age <- as.numeric(df$age)
 
 # Mutate variables (Average values for double measurements)
 df <- df |>
