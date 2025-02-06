@@ -6,6 +6,7 @@ pacman::p_load(
   skimr, # Skim dataset
   finalfit, # Labeling
   janitor, # Clean names
+  DataExplorer # Data exploration
 )
 
 
@@ -168,6 +169,17 @@ weight_metrics <- function(weight, predicted_wt){
 }
 
 weight_metrics(df$weight, df$predicted_wt) # mae, mse, rmse
+
+# Weight features
+weight_features <- df |> 
+  select(-c(weight, bmi, bmi_cat))
+
+# BMI features
+bmi_features <- df |>
+  select(-c(bmi, bmi_cat))
+
+# Create exploratory data analysis report
+create_report(df)
 
 ## Export dataset
 export(df, here("data", "muac.csv"))
