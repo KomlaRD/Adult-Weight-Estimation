@@ -35,6 +35,20 @@ df <- df |>
     index
   ))
 
+# Clean data (Full dataset: 389)
+## Remove participant with wrongly entered age, height, missing sex and weight
+df <- df |> filter(age != "Option 2")
+
+## Remove participant with missing height and weight
+df <-  df[-91,]
+
+## Remove participant with missing age
+df <-  df[-159,]
+
+## Correct participant with height recorded as 69.0 instead of 169.0
+df$height_2[df$height_2 == 69.0] <- 169.0
+
+
 # Mutate variables (Average values for double measurements)
 df <- df |>
   mutate(
