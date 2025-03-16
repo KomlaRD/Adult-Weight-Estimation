@@ -105,38 +105,6 @@ print(shapiro_p_values)
 
 ## Note; None of the numeric variables are normally distributed
 
-## Predict weight (trial)
-
-df$predicted_weight <- ifelse(df$sex == "Male",
-                              -60.3 + (2.26 * df$muac) + (0.72) + (0.33 * df$height),
-                              -60.3 + (2.26 * df$muac) + (0.33 * df$height)) 
-
-
-# Evaluate weight performance
-# Function to evaluate model predictions
-weight_metrics <- function(weight, predicted_wt){
-  # Mean absolute error
-  mae_eval <- Metrics::mae(weight, predicted_wt)
-
-  # Mean squared error
-  mse_eval <- Metrics::mse(weight, predicted_wt)
-
-  # Root mean squared error
-  rmse_eval <- Metrics::rmse(weight, predicted_wt)
-
-  return(c(mae_eval, mse_eval, rmse_eval))
-}
-
-weight_metrics(df$weight, df$predicted_wt) # mae, mse, rmse
-
-# Weight features
-weight_features <- df |> 
-  select(-c(weight, bmi, bmi_cat))
-
-# BMI features
-bmi_features <- df |>
-  select(-c(bmi, bmi_cat))
-
 # Create exploratory data analysis report
 create_report(df)
 
