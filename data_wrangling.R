@@ -11,7 +11,7 @@ pacman::p_load(
 
 
 # Import dataset
-df <- import(here("data", "muac_data.csv"))
+df <- import(here("data", "muac.sav"))
 
 # Clean names
 df <- clean_names(df)
