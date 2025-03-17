@@ -131,13 +131,11 @@ export(df, here("data", "muac.csv"))
 
 # Function for Crandall equation
 crandall_weight <- function(MAC, height, gender) {
-  if (gender == "female") {
-    return(64.6 + (MAC * 2.15) + (height * 0.54))
-  } else if (gender == "male") {
-    return(93.2 + (MAC * 3.29) + (height * 0.43))
-  } else {
-    stop("Invalid gender input. Use 'male' or 'female'.")
-  }
+  ifelse(gender == "female",
+         64.6 + (MAC * 2.15) + (height * 0.54),
+         ifelse(gender == "male",
+                93.2 + (MAC * 3.29) + (height * 0.43),
+                NA)) # Returns NA for invalid gender
 }
 
 ## Simplified MAC
