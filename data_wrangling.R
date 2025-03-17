@@ -145,6 +145,10 @@ crandall_weight <- function(MAC, height, gender) {
 # (MAC * 4) - 50
 #----------------------------------------------
 
+# Function for Simplified MAC equation
+simplified_mac_weight <- function(MAC) {
+  return((MAC * 4) - 50)
+}
 
 
 ## Kokong
