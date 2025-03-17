@@ -16,6 +16,16 @@ df <- import(here("data", "muac.sav"))
 # Clean names
 df <- clean_names(df)
 
+# Remove unused features
+df <- df |>
+  select(-c(
+    bmi,
+    bmi_groups,
+    muac_male_groups,
+    muac_females_groups,
+    age_groups
+  ))
+
 # Mutate variables (Average values for double measurements)
 df <- df |>
   mutate(
