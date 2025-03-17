@@ -157,4 +157,8 @@ simplified_mac_weight <- function(MAC) {
 # 100 * (Height (m) - 1)
 #----------------------------------------------
 
+# Function for Kokong equation
+kokong_weight <- function(height) {
+  return(height - 100)
+}
 
