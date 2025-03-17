@@ -132,9 +132,9 @@ export(df, here("data", "muac.csv"))
 # Function for Crandall equation
 crandall_weight <- function(MAC, height, gender) {
   ifelse(gender == "female",
-         64.6 + (MAC * 2.15) + (height * 0.54),
+         -64.6 + (MAC * 2.15) + (height * 0.54),
          ifelse(gender == "male",
-                93.2 + (MAC * 3.29) + (height * 0.43),
+                -93.2 + (MAC * 3.29) + (height * 0.43),
                 NA)) # Returns NA for invalid gender
 }
 
@@ -168,4 +168,8 @@ df$cradall_prediction <- crandall_weight(df$muac, df$height, df$sex)
 
 ## Simplified formula
 df$sim_muac <- simplified_mac_weight(df$muac)
+
+## Kokong formula
+df$kokong <- kokong_weight(df$height)
+
 
