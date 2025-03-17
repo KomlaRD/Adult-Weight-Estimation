@@ -173,3 +173,5 @@ df$sim_muac <- simplified_mac_weight(df$muac)
 df$kokong <- kokong_weight(df$height)
 
 
+## Export dataset
+export(df, here("data", "weight_equations.csv"))
