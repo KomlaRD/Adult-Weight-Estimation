@@ -160,3 +160,7 @@ kokong_weight <- function(height) {
   return(height - 100)
 }
 
+
+# Create vectors for predictions
+df$cradall_prediction <- crandall_weight(df$muac, df$height, df$sex)
+
