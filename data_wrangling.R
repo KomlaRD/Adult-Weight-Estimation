@@ -78,6 +78,10 @@ df <- df |>
     bmi = ff_label(bmi, "Body mass index (kgm-2")
   )
 
+# Round bmi to 1 decimal place
+df <- df |>
+  mutate(bmi = round(bmi, digits=1))
+
 # Mutate bmi into categories
 df <- df |>
   mutate(
