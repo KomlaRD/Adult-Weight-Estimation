@@ -16,3 +16,7 @@ pacman::p_load(
 clean_data <- import(here("data", "muac.csv"))
 ```
 
+```{r table-summary}
+clean_data |> tbl_summary()
+```
+
