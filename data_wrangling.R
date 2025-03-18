@@ -66,6 +66,19 @@ df <- df |>
   )
 
 
+# Factor recode educational status levels
+df <- df |>
+  mutate(
+    education_level = fct_recode(
+      education_level, 
+      "None/Pre-primary" = "pre_primary___none",
+      "Primary" = "primary",
+      "JSS/JHS/Middle" = "jss_jhs_middle",
+      "SSS/SHS/Secondary" = "sss_shs_secondary",
+      "Higher" = "higher"
+    )
+  )
+
 # Label numeric variables
 df <- df |>
   mutate(
