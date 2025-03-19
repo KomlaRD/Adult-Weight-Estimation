@@ -136,7 +136,8 @@ print(shapiro_p_values)
 create_report(df)
 
 ## Export dataset
-export(df, here("data", "muac.csv"))
+export(df, here("data", "muac.csv")) # CSV version
+export(df, here("data", "muac.Rdata")) # Rdata version
 
 # Prediction using existing equation
 ## Crandall 
@@ -191,4 +192,5 @@ df$kokong <- kokong_weight(df$height)
 
 
 ## Export dataset
-export(df, here("data", "weight_equations.csv"))
+export(df, here("data", "weight_equations.csv")) # CSV version
+export(df, here("data", "weight_equations.Rdata")) # Rdata version
