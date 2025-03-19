@@ -95,12 +95,12 @@ df <- df |>
 df <- df |>
   mutate(
     bmi = (weight / (height/100) **2),
-    age = ff_label(age, "Age (years"),
+    age = ff_label(age, "Age (years)"),
     height = ff_label(height, "Height (cm)"),
     weight = ff_label(weight, "Weight (kg)"),
     cc = ff_label(cc, "Calf circumference (cm)"),
     muac = ff_label(muac, "MUAC (cm)"),
-    bmi = ff_label(bmi, "Body mass index (kgm-2")
+    bmi = ff_label(bmi, "Body mass index (kgm-2)")
   )
 
 # Round bmi to 1 decimal place
@@ -117,6 +117,12 @@ df <- df |>
       bmi >= 30.0 ~ "Obese"
     ) |> ff_label("BMI categories"),
     bmi_cat = factor(bmi_cat)
+  )
+
+# Label BMI cat
+df <- df |>
+  mutate(
+    bmi_cat = ff_label(bmi_cat, "Body mass index category")
   )
     
 # Skim dataset
