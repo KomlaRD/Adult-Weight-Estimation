@@ -13,7 +13,7 @@ pacman::p_load(
 ```
 
 ```{r load-data}
-clean_data <- import(here("data", "muac.csv"))
+clean_data <- import(here("data", "muac.Rdata"), trust=TRUE)
 ```
 
 ```{r table-summary}
