@@ -83,6 +83,10 @@ df <- df |>
       "JSS/JHS/Middle" = "jss_jhs_middle",
       "SSS/SHS/Secondary" = "sss_shs_secondary",
       "Higher" = "higher"
+    ),
+    employment = fct_recode(
+      employment,
+      "Self employed" = "Self_employed"
     )
   )
 
