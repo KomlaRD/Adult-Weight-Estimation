@@ -17,6 +17,7 @@ clean_data <- import(here("data", "muac.Rdata"), trust=TRUE)
 ```
 
 ```{r table-summary}
-clean_data |> tbl_summary()
+clean_data |> 
+  select(sex, age, height, weight, muac, cc, bmi, bmi_cat)  |> tbl_summary()
 ```
 
