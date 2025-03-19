@@ -49,6 +49,13 @@ df <- df |>
   ))
 
 
+# Convert variable values to tile case
+df <- df |>
+  mutate(
+    employment = str_to_title(employment),
+    religion = str_to_sentence(religion)
+  )
+
 # Mutate categorical variables
 df <- df |> 
   mutate(
