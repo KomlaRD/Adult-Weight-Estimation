@@ -124,6 +124,14 @@ df <- df |>
   mutate(
     bmi_cat = ff_label(bmi_cat, "Body mass index category")
   )
+
+# Relevel BMI category
+df <- df |>
+  mutate(
+    bmi_cat = fct_relevel(
+      bmi_cat, "Underweight", "Normal", "Overweight", "Obese"
+    )
+  )
     
 # Skim dataset
 skim(df)
