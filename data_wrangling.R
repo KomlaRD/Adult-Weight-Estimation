@@ -53,7 +53,8 @@ df <- df |>
 df <- df |>
   mutate(
     employment = str_to_title(employment),
-    religion = str_to_sentence(religion)
+    religion = str_to_sentence(religion),
+    sex = str_to_sentence(sex)
   )
 
 # Mutate categorical variables
