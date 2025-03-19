@@ -143,9 +143,6 @@ print(shapiro_p_values)
 
 ## Note; None of the numeric variables are normally distributed
 
-# Create exploratory data analysis report
-create_report(df)
-
 ## Export dataset
 export(df, here("data", "muac.csv")) # CSV version
 export(df, here("data", "muac.Rdata")) # Rdata version
@@ -205,3 +202,6 @@ df$kokong <- kokong_weight(df$height)
 ## Export dataset
 export(df, here("data", "weight_equations.csv")) # CSV version
 export(df, here("data", "weight_equations.Rdata")) # Rdata version
+
+# Create exploratory data analysis report
+# create_report(df) # Uncomment to see report
