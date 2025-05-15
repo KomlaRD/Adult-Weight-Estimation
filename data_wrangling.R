@@ -214,9 +214,16 @@ df$sim_muac <- simplified_mac_weight(df$muac)
 df$kokong <- kokong_weight(df$height)
 
 
+# Crandall prediction for obese patients
+df_obese <- df |>
+  filter(bmi_cat == "Obese")
+
+df_obese$crandall_prediction <- crandall_weight(df_obese$muac, df_obese$height, df_obese$sex)
+
 ## Export dataset
 export(df, here("data", "weight_equations.csv")) # CSV version
 export(df, here("data", "weight_equations.Rdata")) # Rdata version
+export(df_obese, here("data", "crandall_df.csv")) # Crandall weight
 
 # Create exploratory data analysis report
 # create_report(df) # Uncomment to see report
