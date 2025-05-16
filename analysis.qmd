@@ -8,7 +8,8 @@ format: html
 ```{r load-packages}
 pacman::p_load(
   rio,
-  gtsummary
+  gtsummary,
+  xtable
 )
 ```
 
@@ -17,7 +18,16 @@ clean_data <- import(here("data", "muac.Rdata"), trust=TRUE)
 ```
 
 ```{r table-summary}
-clean_data |> 
+table1 <- clean_data |> 
   select(sex, age, height, weight, muac, cc, bmi, bmi_cat)  |> tbl_summary()
+table1
+```
+
+```{r latex-table}
+# If you already have `table1`
+table1_latex <- as_kable_extra(table1, format = "latex")
+
+# Save to a .tex file
+cat(table1_latex, file = "table1.tex")
 ```
 
