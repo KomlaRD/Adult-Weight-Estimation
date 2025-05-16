@@ -169,17 +169,17 @@ df_obese <- df |>
 # Prediction using existing equation
 ## Crandall 
 #----------------------------------------------
-# Women: 64.6 + (MAC * 2.15) + (height * 0.54)
-# Men: 93.2 + (MAC * 3.29) + (height * 0.43)
+# Women: - 64.6 + (MAC * 2.15) + (height * 0.54) 
+# Men:   - 93.2 + (MAC * 3.29) + (height * 0.43) 
 #----------------------------------------------
 
 
 # Function for Crandall equation
 crandall_weight <- function(MAC, height, gender) {
-  ifelse(gender == "female",
+  ifelse(gender == "Female",
          -64.6 + (MAC * 2.15) + (height * 0.54),
-         ifelse(gender == "male",
-                -93.2 + (MAC * 3.29) + (height * 0.43),
+         ifelse(gender == "Male",
+                - 93.2 + (MAC * 3.29) + (height * 0.43),
                 NA)) # Returns NA for invalid gender
 }
 
