@@ -213,7 +213,7 @@ kokong_weight <- function(height) {
 # Create vectors for predictions
 
 ## Crandall formula
-df$cradall_prediction <- crandall_weight(df$muac, df$height, df$sex)
+df$crandall_prediction <- crandall_weight(df$muac, df$height, df$sex)
 
 ## Simplified formula
 df$sim_muac <- simplified_mac_weight(df$muac)
