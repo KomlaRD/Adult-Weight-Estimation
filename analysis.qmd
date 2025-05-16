@@ -1,0 +1,23 @@
+---
+title: "Data analysis"
+author: "Eric Anku"
+format: html
+---
+
+
+```{r load-packages}
+pacman::p_load(
+  rio,
+  gtsummary
+)
+```
+
+```{r load-data}
+clean_data <- import(here("data", "muac.Rdata"), trust=TRUE)
+```
+
+```{r table-summary}
+clean_data |> 
+  select(sex, age, height, weight, muac, cc, bmi, bmi_cat)  |> tbl_summary()
+```
+

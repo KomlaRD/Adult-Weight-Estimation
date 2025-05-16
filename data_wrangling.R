@@ -12,21 +12,18 @@ pacman::p_load(
 
 # Import dataset
 df <- import(here("data", "muac.sav"))
-head(df)
 
 # Clean names
 df <- clean_names(df)
-head(df)
 
-# Remove redundant columns
+# Remove unused features
 df <- df |>
   select(-c(
     bmi,
     bmi_groups,
-    age_groups,
-    height_meters,
     muac_male_groups,
-    muac_females_groups
+    muac_females_groups,
+    age_groups
   ))
 
 # Mutate variables (Average values for double measurements)
@@ -52,53 +49,63 @@ df <- df |>
   ))
 
 
+# Convert variable values to tile case
+df <- df |>
+  mutate(
+    employment = str_to_title(employment),
+    religion = str_to_sentence(religion),
+    sex = str_to_sentence(sex)
+  )
+
 # Mutate categorical variables
 df <- df |> 
   mutate(
     # Sex
-    sex = factor(sex) |>
-      fct_recode(
-        "Female" = "female",
-        "Male" = "male"
-      ) |> ff_label("Sex"),
+    sex = factor(sex) |> ff_label("Sex"),
+    
     # Religion
-    religion = factor(religion) |>
-      fct_recode(
-        "Christian" = "christianity",
-        "Islam" = "islamic",
-        "Traditional" = "traditional"
-      ) |> ff_label("Religion"),
+    religion = factor(religion) |> ff_label("Religion"),
+    
     # Educational level
-    education_level = factor(education_level) |>
-      fct_recode(
-        "Pre-primary/None" = "pre_primary___none",
-        "Primary" = "primary",
-        "JSS/JHS/Middle" = "jss_jhs_middle",
-        "SSS/SHS/Secondary" = "sss_shs_secondary",
-        "Higher" = "higher"
-      ) |> ff_label("Educational level"),
+    education_level = factor(education_level) |> ff_label("Educational level"),
+    
     # Employment status
-    employment = factor(employment) |>
-      fct_recode(
-        "Unemployed" = "unemployed",
-        "Self employed" =  "self_employed",
-        "Employed" = "employed",
-        "Retired" = "retired"
-      ) |> ff_label("Employment status")
+    employment = factor(employment) |> ff_label("Employment status")
   )
 
+
+# Factor recode educational status levels
+df <- df |>
+  mutate(
+    education_level = fct_recode(
+      education_level, 
+      "None/Pre-primary" = "pre_primary___none",
+      "Primary" = "primary",
+      "JSS/JHS/Middle" = "jss_jhs_middle",
+      "SSS/SHS/Secondary" = "sss_shs_secondary",
+      "Higher" = "higher"
+    ),
+    employment = fct_recode(
+      employment,
+      "Self employed" = "Self_employed"
+    )
+  )
 
 # Label numeric variables
 df <- df |>
   mutate(
     bmi = (weight / (height/100) **2),
-    age = ff_label(age, "Age (years"),
+    age = ff_label(age, "Age (years)"),
     height = ff_label(height, "Height (cm)"),
     weight = ff_label(weight, "Weight (kg)"),
     cc = ff_label(cc, "Calf circumference (cm)"),
     muac = ff_label(muac, "MUAC (cm)"),
-    bmi = ff_label(bmi, "Body mass index (kgm-2")
+    bmi = ff_label(bmi, "Body mass index (kgm-2)")
   )
+
+# Round bmi to 1 decimal place
+df <- df |>
+  mutate(bmi = round(bmi, digits=1))
 
 # Mutate bmi into categories
 df <- df |>
@@ -110,6 +117,20 @@ df <- df |>
       bmi >= 30.0 ~ "Obese"
     ) |> ff_label("BMI categories"),
     bmi_cat = factor(bmi_cat)
+  )
+
+# Label BMI cat
+df <- df |>
+  mutate(
+    bmi_cat = ff_label(bmi_cat, "Body mass index category")
+  )
+
+# Relevel BMI category
+df <- df |>
+  mutate(
+    bmi_cat = fct_relevel(
+      bmi_cat, "Underweight", "Normal", "Overweight", "Obese"
+    )
   )
     
 # Skim dataset
@@ -137,43 +158,76 @@ print(shapiro_p_values)
 
 ## Note; None of the numeric variables are normally distributed
 
-# ## Predict weight (trial)
-# 
-# predicted_weight <- case_when(
-#   df$sex == "Male" ~ -60.3 + (2.26 * df$muac) + (0.72) + (0.33 * df$height),
-#   df$sex == "Female" ~  -60.3 + (2.26 * df$muac) + (0.33 * df$height),
-#   TRUE ~ NA_real_
-# )
-# 
-# df$predicted_wt <- predicted_weight
-# 
-# # Evaluate weight performance
-# # Function to evaluate model predictions
-# weight_metrics <- function(weight, predicted_wt){
-#   # Mean absolute error
-#   mae_eval <- Metrics::mae(weight, predicted_wt)
-#   
-#   # Mean squared error
-#   mse_eval <- Metrics::mse(weight, predicted_wt)
-#   
-#   # Root mean squared error
-#   rmse_eval <- Metrics::rmse(weight, predicted_wt)
-#   
-#   return(c(mae_eval, mse_eval, rmse_eval))
-# }
-# 
-# weight_metrics(df$weight, df$predicted_wt) # mae, mse, rmse
+## Export dataset
+export(df, here("data", "muac.csv")) # CSV version
+export(df, here("data", "muac.Rdata")) # Rdata version
 
-# Weight features
-weight_features <- df |> 
-  select(-c(weight, bmi, bmi_cat))
+# Prediction using existing equation
+## Crandall 
+#----------------------------------------------
+# Women: 64.6 + (MAC * 2.15) + (height * 0.54)
+# Men: 93.2 + (MAC * 3.29) + (height * 0.43)
+#----------------------------------------------
 
-# BMI features
-bmi_features <- df |>
-  select(-c(bmi, bmi_cat))
 
-# Create exploratory data analysis report
-create_report(weight_features)
+# Function for Crandall equation
+crandall_weight <- function(MAC, height, gender) {
+  ifelse(gender == "female",
+         -64.6 + (MAC * 2.15) + (height * 0.54),
+         ifelse(gender == "male",
+                -93.2 + (MAC * 3.29) + (height * 0.43),
+                NA)) # Returns NA for invalid gender
+}
+
+
+# # Create exploratory data analysis report
+# create_report(weight_features)
+
+## Simplified MAC
+#----------------------------------------------
+# (MAC * 4) - 50
+#----------------------------------------------
+
+# Function for Simplified MAC equation
+simplified_mac_weight <- function(MAC) {
+  return((MAC * 4) - 50)
+}
+
+
+## Kokong
+#----------------------------------------------
+# Height (cm) - 100 OR
+# 100 * (Height (m) - 1)
+#----------------------------------------------
+
+# Function for Kokong equation
+kokong_weight <- function(height) {
+  return(height - 100)
+}
+
+
+# Create vectors for predictions
+
+## Crandall formula
+df$cradall_prediction <- crandall_weight(df$muac, df$height, df$sex)
+
+## Simplified formula
+df$sim_muac <- simplified_mac_weight(df$muac)
+
+## Kokong formula
+df$kokong <- kokong_weight(df$height)
+
+
+# Crandall prediction for obese patients
+df_obese <- df |>
+  filter(bmi_cat == "Obese")
+
+df_obese$crandall_prediction <- crandall_weight(df_obese$muac, df_obese$height, df_obese$sex)
 
 ## Export dataset
-export(df, here("data", "muac.csv"))
+export(df, here("data", "weight_equations.csv")) # CSV version
+export(df, here("data", "weight_equations.Rdata")) # Rdata version
+export(df_obese, here("data", "crandall_df.csv")) # Crandall weight
+
+# Create exploratory data analysis report
+# create_report(df) # Uncomment to see report
