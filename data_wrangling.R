@@ -100,7 +100,7 @@ df <- df |>
     weight = ff_label(weight, "Weight (kg)"),
     cc = ff_label(cc, "Calf circumference (cm)"),
     muac = ff_label(muac, "Mid-upper arm circumference (cm)"),
-    bmi = ff_label(bmi, "Body mass index (kgm$^2$)")
+    bmi = ff_label(bmi, "Body mass index (kg/m²)")
   )
 
 # Round bmi to 1 decimal place
