@@ -173,7 +173,7 @@ bmi_features <- df |>
   select(-c(bmi, bmi_cat))
 
 # Create exploratory data analysis report
-create_report(df)
+create_report(weight_features)
 
 ## Export dataset
 export(df, here("data", "muac.csv"))
