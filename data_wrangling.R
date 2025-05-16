@@ -220,7 +220,7 @@ df$kokong <- kokong_weight(df$height)
 
 
 # Filter obese predictions
-df |> 
+df_obese <- df |> 
   filter(bmi_cat == "Obese") |> 
   select(weight, crandall_prediction)
 
