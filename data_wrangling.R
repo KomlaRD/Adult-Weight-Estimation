@@ -162,6 +162,10 @@ print(shapiro_p_values)
 export(df, here("data", "muac.csv")) # CSV version
 export(df, here("data", "muac.Rdata")) # Rdata version
 
+# Filter obese patients
+df_obese <- df |>
+  filter(bmi_cat == "Obese")
+
 # Prediction using existing equation
 ## Crandall 
 #----------------------------------------------
@@ -219,9 +223,6 @@ df$kokong <- kokong_weight(df$height)
 
 
 # Crandall prediction for obese patients
-df_obese <- df |>
-  filter(bmi_cat == "Obese")
-
 df_obese$crandall_prediction <- crandall_weight(df_obese$muac, df_obese$height, df_obese$sex)
 
 ## Export dataset
